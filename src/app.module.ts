@@ -16,7 +16,8 @@ import { GatewayIntentBits, Message } from 'discord.js';
           {
             forGuild: configService.get('SERVER_ID'),
             allowFactory: (message: Message) =>
-              !message.author.bot && message.content === '!deploy',
+              !message.author.bot &&
+              message.channel.id === configService.get('CHANNEL_ID'),
           },
         ],
         discordClientOptions: {
@@ -24,6 +25,7 @@ import { GatewayIntentBits, Message } from 'discord.js';
             GatewayIntentBits.Guilds,
             GatewayIntentBits.MessageContent,
             GatewayIntentBits.DirectMessages,
+            GatewayIntentBits.GuildMessages,
           ],
         },
       }),

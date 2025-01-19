@@ -7,6 +7,7 @@ import { Injectable, Logger } from '@nestjs/common';
 @Command({
   name: 'playlist',
   description: 'Get current playlist',
+  dmPermission: true,
 })
 @Injectable()
 export class PlaylistCommand {
