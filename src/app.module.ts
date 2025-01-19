@@ -3,7 +3,6 @@ import { DiscordModule } from '@discord-nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BotModule } from './bot/bot.module';
 import { GatewayIntentBits } from 'discord.js';
-import { BotGateway } from './bot/bot.gateway';
 
 @Module({
   imports: [
