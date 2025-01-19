@@ -24,7 +24,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) TypeScript Discord Bot.  Adds slash commands to Stellar Discord.
+[Nest](https://github.com/nestjs/nest) TypeScript Discord Bot.
 
 ## Project setup
 
