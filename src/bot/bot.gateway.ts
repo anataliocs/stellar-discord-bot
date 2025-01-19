@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Once, InjectDiscordClient } from '@discord-nestjs/core';
-import { Client } from 'discord.js';
+import { Once, InjectDiscordClient, On } from '@discord-nestjs/core';
+import { Client, Message } from 'discord.js';
 
 @Injectable()
 export class BotGateway {
@@ -27,6 +27,15 @@ export class BotGateway {
       this.client.application.flags.toArray().forEach((flag) => {
         this.logger.debug(`Registered flag - ${flag}`);
       });
+    }
+  }
+
+  @On('messageCreate')
+  async onMessage(message: Message): Promise<void> {
+    if (!message.author.bot) {
+      this.logger.log(
+        `Msg: ${message.author.username} Content: ${message.content} `,
+      );
     }
   }
 }

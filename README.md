@@ -42,6 +42,11 @@ $ pnpm run test:cov
 
 ## Run Locally with Discord
 
+Using ngrok
+```
+ngrok http 3000
+```
+
 ```
 cloudflared tunnel --url http://localhost:3000
 ```

@@ -1,13 +1,13 @@
 /* playlist.command.ts */
 
 import { Command, Handler } from '@discord-nestjs/core';
-import { CommandInteraction } from 'discord.js';
+import { ApplicationCommandType, CommandInteraction } from 'discord.js';
 import { Injectable, Logger } from '@nestjs/common';
 
 @Command({
   name: 'playlist',
   description: 'Get current playlist',
-  dmPermission: true,
+  type: ApplicationCommandType.ChatInput,
 })
 @Injectable()
 export class PlaylistCommand {
