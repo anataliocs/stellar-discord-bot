@@ -40,6 +40,12 @@ $ pnpm run test:e2e
 $ pnpm run test:cov
 ```
 
+## Run Locally with Discord
+
+```
+cloudflared tunnel --url http://localhost:3000
+```
+
 ## Docker
 
 Build image locally
