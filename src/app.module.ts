@@ -13,7 +13,7 @@ import { GatewayIntentBits } from 'discord.js';
       useFactory: (configService: ConfigService) => ({
         token: configService.get('DISCORD_TOKEN'),
         discordClientOptions: {
-          intents: [GatewayIntentBits.Guilds],
+          intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent],
         },
       }),
     }),
