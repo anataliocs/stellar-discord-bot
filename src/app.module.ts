@@ -15,6 +15,7 @@ import { GatewayIntentBits } from 'discord.js';
         registerCommandOptions: [
           {
             forGuild: configService.get('SERVER_ID'),
+            removeCommandsBefore: true,
           },
         ],
         discordClientOptions: {
