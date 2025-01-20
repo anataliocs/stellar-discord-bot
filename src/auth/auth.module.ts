@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { DiscordStrategy } from './discord-strategy.service';
+import { DiscordStrategy } from './discord-strategy';
 import { UsersModule } from '../users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule, JwtService } from '@nestjs/jwt';
@@ -9,14 +9,16 @@ import { UsersService } from '../users/users.service';
 
 @Module({
   imports: [
+    ConfigModule,
     UsersModule,
     PassportModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        defaultStrategy: 'discord',
+        defaultStrategy: 'discord-0auth',
         clientID: configService.get('CLIENT_ID'),
         clientSecret: configService.get('CLIENT_SECRET'),
+        session: true,
       }),
     }),
     JwtModule.registerAsync({
