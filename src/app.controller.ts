@@ -31,11 +31,9 @@ export class AppController {
     @Request() req,
     @Response() res,
   ) {
-    res.rawHeaders = req.rawHeaders;
-
     return res.redirect(
       302,
-      `https://dev-3xssr21qwrtz222y.us.auth0.com/authorize/resume?code=${code}&state=${state}`,
+      `https://discord.com/oauth2/authorize?client_id=1309255291048558632&code=${code}&state=${state}`,
     );
   }
 }

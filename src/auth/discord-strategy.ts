@@ -14,10 +14,12 @@ export class DiscordStrategy extends PassportStrategy(
       clientID: authService.clientId,
       clientSecret: authService.clientSecret,
       callbackURL: 'http://localhost:3000/callback',
-      domain: 'dev-3xssr21qwrtz222y.us.auth0.com',
+      domain: 'discord.com/oauth2',
       state: true,
       passReqToCallback: true,
       enableProof: true,
+      scopeSeparator: '+',
+      profileFields: ['identify', 'gateway.connect', 'messages.read'],
     });
   }
 

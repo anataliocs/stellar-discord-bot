@@ -19,6 +19,7 @@ import { UsersService } from '../users/users.service';
         clientID: configService.get('CLIENT_ID'),
         clientSecret: configService.get('CLIENT_SECRET'),
         session: true,
+        property: 'messages.read',
       }),
     }),
     JwtModule.registerAsync({
