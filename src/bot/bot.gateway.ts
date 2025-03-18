@@ -5,6 +5,7 @@ import { HttpService } from '@nestjs/axios';
 import { IsNotBotGuard } from './guard/is-not-bot.guard';
 import { IsDevHelpChannel } from './guard/is-dev-help-channel-type.guard';
 import { IsPublicThreadChannelType } from './guard/is-thread-channel-type.guard';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class BotGateway {
@@ -16,6 +17,7 @@ export class BotGateway {
     @InjectDiscordClient()
     private readonly client: Client,
     private readonly httpService: HttpService,
+    private readonly configService: ConfigService,
   ) {}
 
   @Once('ready')
@@ -37,7 +39,7 @@ export class BotGateway {
 
     this.httpService
       .post(
-        'https://hooks.slack.com/services/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',
+        this.configService.get<string>('DEV_HELP_SLACK_WEBHOOK'),
         {
           blocks: [
             {
