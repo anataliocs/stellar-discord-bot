@@ -19,21 +19,16 @@ export class AppController {
   constructor(private authService: AuthService) {}
 
   @UseGuards(DiscordAuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
+  @Get('oauth2/discord')
+  discordOauth(@Request() req) {
     return req.user;
   }
 
   @Get('callback')
-  callback(
-    @Query('code') code: string,
-    @Query('state') state: string,
-    @Request() req,
-    @Response() res,
-  ) {
+  callback(@Request() req, @Response() res) {
     return res.redirect(
       302,
-      `https://discord.com/oauth2/authorize?client_id=1309255291048558632&code=${code}&state=${state}`,
+      `https://discord.com/oauth2/authorize?client_id=1309255291048558632`,
     );
   }
 }

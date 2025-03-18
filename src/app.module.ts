@@ -2,14 +2,16 @@ import { Module } from '@nestjs/common';
 import { DiscordModule } from '@discord-nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BotModule } from './bot/bot.module';
-import { GatewayIntentBits } from 'discord.js';
+import { GatewayIntentBits, Partials } from 'discord.js';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { AppController } from './app.controller';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
+    HttpModule,
     ConfigModule.forRoot(),
     DiscordModule.forRootAsync({
       imports: [ConfigModule],
@@ -23,7 +25,11 @@ import { AppController } from './app.controller';
           },
         ],
         discordClientOptions: {
-          intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
+          intents: [
+            GatewayIntentBits.Guilds,
+            GatewayIntentBits.GuildMessages,
+            GatewayIntentBits.MessageContent,
+          ],
         },
         autoLogin: true,
       }),
@@ -32,6 +38,7 @@ import { AppController } from './app.controller';
     AuthModule,
     UsersModule,
     PassportModule,
+    HttpModule,
   ],
   controllers: [AppController],
 })

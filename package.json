@@ -1,5 +1,5 @@
 {
-  "name": "stellar-discord-bot",
+  "name": "stellar-devrel-bot",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -22,12 +22,14 @@
   "dependencies": {
     "@discord-nestjs/common": "^5.3.1",
     "@discord-nestjs/core": "^5.5.0",
+    "@nestjs/axios": "^4.0.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.3.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/jwt": "^11.0.0",
     "@nestjs/passport": "^11.0.3",
     "@nestjs/platform-express": "^10.0.0",
+    "axios": "^1.8.3",
     "class-validator": "^0.14.1",
     "discord.js": "^14.17.3",
     "express-session": "^1.18.1",
