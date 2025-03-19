@@ -1,6 +1,6 @@
 import { Injectable, Logger, UseGuards } from '@nestjs/common';
 import { InjectDiscordClient, On, Once } from '@discord-nestjs/core';
-import { APIEmbed, Client, Message, messageLink } from 'discord.js';
+import { Client, Message, messageLink } from 'discord.js';
 import { HttpService } from '@nestjs/axios';
 import { IsNotBotGuard } from './guard/is-not-bot.guard';
 import { IsDevHelpChannel } from './guard/is-dev-help-channel-type.guard';
