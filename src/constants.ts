@@ -2,6 +2,8 @@ export const DEV_HELP_CHANNEL = '1351284738253656155';
 
 export const SERVER_ID = '897514728459468821';
 
+export const STELLA_CHANNEL = '1265827786111586344';
+
 interface ForumTag {
   id: string;
   name: string;

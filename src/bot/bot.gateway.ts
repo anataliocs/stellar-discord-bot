@@ -1,18 +1,11 @@
 import { Injectable, Logger, UseGuards } from '@nestjs/common';
-import { Once, InjectDiscordClient, On } from '@discord-nestjs/core';
-import {
-  APIEmbed,
-  Client,
-  Message,
-  messageLink,
-  ThreadChannel,
-} from 'discord.js';
+import { InjectDiscordClient, On, Once } from '@discord-nestjs/core';
+import { APIEmbed, Client, Message, messageLink } from 'discord.js';
 import { HttpService } from '@nestjs/axios';
 import { IsNotBotGuard } from './guard/is-not-bot.guard';
 import { IsDevHelpChannel } from './guard/is-dev-help-channel-type.guard';
 import { IsPublicThreadChannelType } from './guard/is-thread-channel-type.guard';
 import { ConfigService } from '@nestjs/config';
-import { DEV_HELP_CHANNEL, getTagById, SERVER_ID } from '../constants';
 
 @Injectable()
 export class BotGateway {
