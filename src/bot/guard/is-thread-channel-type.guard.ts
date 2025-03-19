@@ -1,5 +1,4 @@
 import { CanActivate, ExecutionContext } from '@nestjs/common';
-import { DEV_HELP_CHANNEL } from '../../constants';
 import { ChannelType } from 'discord.js';
 
 export class IsPublicThreadChannelType implements CanActivate {

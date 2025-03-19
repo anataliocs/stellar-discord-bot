@@ -2,12 +2,9 @@ import {
   Controller,
   Get,
   Logger,
-  Query,
-  Headers,
   Request,
   Response,
   UseGuards,
-  Header,
 } from '@nestjs/common';
 import { AuthService } from './auth/auth.service';
 import { DiscordAuthGuard } from './auth/discord.guard';
