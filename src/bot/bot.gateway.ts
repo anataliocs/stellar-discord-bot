@@ -1,11 +1,18 @@
 import { Injectable, Logger, UseGuards } from '@nestjs/common';
 import { Once, InjectDiscordClient, On } from '@discord-nestjs/core';
-import { Client, Message, messageLink, ThreadChannel } from 'discord.js';
+import {
+  APIEmbed,
+  Client,
+  Message,
+  messageLink,
+  ThreadChannel,
+} from 'discord.js';
 import { HttpService } from '@nestjs/axios';
 import { IsNotBotGuard } from './guard/is-not-bot.guard';
 import { IsDevHelpChannel } from './guard/is-dev-help-channel-type.guard';
 import { IsPublicThreadChannelType } from './guard/is-thread-channel-type.guard';
 import { ConfigService } from '@nestjs/config';
+import { DEV_HELP_CHANNEL, getTagById, SERVER_ID } from '../constants';
 
 @Injectable()
 export class BotGateway {
@@ -36,6 +43,7 @@ export class BotGateway {
     }
 
     const title = message.channel.isThread() ? message.channel.name : '';
+    // TODO use getTagById() function to populate tags from guild forum channel
 
     this.httpService
       .post(
@@ -46,7 +54,7 @@ export class BotGateway {
               type: 'header',
               text: {
                 type: 'plain_text',
-                text: `${title}`,
+                text: `:discord: ${title}`,
               },
             },
             {
@@ -76,7 +84,16 @@ export class BotGateway {
               elements: [
                 {
                   type: 'mrkdwn',
-                  text: `${messageLink(message.channel.id, message.id)}`,
+                  text: ':tag: `auth` `deployment` `sdk`',
+                },
+              ],
+            },
+            {
+              type: 'context',
+              elements: [
+                {
+                  type: 'mrkdwn',
+                  text: `:link: ${messageLink(message.channel.id, message.id)}`,
                 },
               ],
             },

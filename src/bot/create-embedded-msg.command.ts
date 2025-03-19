@@ -1,14 +1,12 @@
-/* playlist.command.ts */
+/* create-embedded-msg.command.ts */
 
-import { Command, EventParams, Handler, IA, On } from '@discord-nestjs/core';
+import { Command, EventParams, Handler, On } from '@discord-nestjs/core';
 import {
   ActionRowBuilder,
   APIEmbed,
   ApplicationCommandType,
-  AttachmentBuilder,
   BaseMessageOptions,
   ClientEvents,
-  codeBlock,
   Colors,
   CommandInteraction,
   EmbedBuilder,
@@ -17,53 +15,49 @@ import {
   MessagePayload,
   ModalActionRowComponentBuilder,
   ModalBuilder,
-  SlashCommandBuilder,
   TextInputBuilder,
   TextInputStyle,
-  UserSelectMenuBuilder,
 } from 'discord.js';
 import { Injectable, Logger, UseGuards } from '@nestjs/common';
 import { IsModalInteractionGuard } from './guard/is-modal-interaction.guard';
-import { RegisterDto } from './dto/register.dto';
-import { InteractionCallbackResponse } from 'discord.js/typings';
 
 @Command({
-  name: 'create-wallet',
-  description: 'Create Smart Wallet',
+  name: 'create-embedded-msg',
+  description: 'Create Embedded Message',
   type: ApplicationCommandType.ChatInput,
 })
 @Injectable()
-export class CreateWalletCommand {
-  private readonly logger = new Logger(CreateWalletCommand.name);
+export class CreateEmbeddedMsgCommand {
+  private readonly logger = new Logger(CreateEmbeddedMsgCommand.name);
 
   @Handler()
-  async createWallet(interaction: CommandInteraction): Promise<void> {
+  async createMessage(interaction: CommandInteraction): Promise<void> {
     const modal = new ModalBuilder()
-      .setTitle('Go away nosy people')
+      .setTitle('Title')
       .setCustomId('modal-title');
 
-    const firstNameInputComponent = new TextInputBuilder()
+    const firstInputComponent = new TextInputBuilder()
       .setMaxLength(1_00)
-      .setCustomId('first-name-input')
-      .setLabel('First Name')
+      .setCustomId('first-input')
+      .setLabel('Field 1')
       .setStyle(TextInputStyle.Short);
 
-    const lastNameInputComponent = new TextInputBuilder()
+    const secondInputComponent = new TextInputBuilder()
       .setMaxLength(1_000)
-      .setCustomId('last-name-input')
-      .setLabel('Not using Discord OAuth2')
+      .setCustomId('second-input')
+      .setLabel('Field 2')
       .setStyle(TextInputStyle.Short);
 
-    const githubInputComponent = new TextInputBuilder()
+    const thirdInputComponent = new TextInputBuilder()
       .setMaxLength(1_00)
-      .setCustomId('github-input')
-      .setLabel('To create a passkeys smart wallet')
+      .setCustomId('third-input')
+      .setLabel('Field 3')
       .setStyle(TextInputStyle.Short);
 
     const rows = [
-      firstNameInputComponent,
-      lastNameInputComponent,
-      githubInputComponent,
+      firstInputComponent,
+      secondInputComponent,
+      thirdInputComponent,
     ].map((component) =>
       new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
         component,
@@ -71,8 +65,6 @@ export class CreateWalletCommand {
     );
 
     modal.addComponents(...rows);
-
-    this.logger.log(`User ${interaction.user.id} registered!`);
 
     await interaction.showModal(modal, {
       withResponse: true,
@@ -90,10 +82,8 @@ export class CreateWalletCommand {
 
     if (!modal.isModalSubmit()) return;
 
-    this.logger.log(`Modal ${modal.id} submit`);
-
     const responseEmbed: JSONEncodable<APIEmbed> = new EmbedBuilder()
-      .setTitle('Your smart wallet has not been created b/c :p')
+      .setTitle('A Message from Stella')
       .setURL('https://developers.stellar.org')
       .setImage(`${modal.user.avatarURL()}`)
       .setColor(Colors.Yellow)
@@ -106,7 +96,7 @@ export class CreateWalletCommand {
       });
 
     const options: BaseMessageOptions = {
-      content: `Go Away`,
+      content: `TODO`,
       embeds: [responseEmbed],
     };
 

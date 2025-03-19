@@ -30,6 +30,13 @@ import { HttpModule } from '@nestjs/axios';
             GatewayIntentBits.GuildMessages,
             GatewayIntentBits.MessageContent,
           ],
+          partials: [
+            Partials.Channel,
+            Partials.User,
+            Partials.Message,
+            Partials.ThreadMember,
+            Partials.GuildMember,
+          ],
         },
         autoLogin: true,
       }),

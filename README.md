@@ -8,6 +8,8 @@
 
 Check out the Discord here [Stellar Discord](https://discord.com/invite/zVYdY3ktTn).
 
+
+
 ## Project setup
 
 ```bash
