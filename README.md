@@ -12,7 +12,7 @@ Stellar Discord Bot</div>
 <a href="https://github.com/anataliocs/stellar-discord-bot/blob/main/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
 </div>
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badges/blob/main/open-in-codespaces.svg)](https://codespaces.new/anataliocs/stellar-discord-bot)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/anataliocs/stellar-discord-bot)
 
 ## Table of Contents
 
