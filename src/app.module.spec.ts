@@ -4,13 +4,33 @@ import { AppController } from './app.controller';
 import { AuthService } from './auth/auth.service';
 import { UsersService } from './users/users.service';
 import { BotGateway } from './bot/bot.gateway';
+import { ConfigService } from '@nestjs/config';
 
 describe('AppModule Integration', () => {
   let appModule: TestingModule;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  let configService: ConfigService;
 
   beforeEach(async () => {
+    const configServiceMock = {
+      get: jest.fn((key: string) => {
+        if (key === 'CLIENT_ID') {
+          return 'mock-client-id';
+        } else if (key === 'CLIENT_SECRET') {
+          return 'mock-client-secret';
+        }
+        return null;
+      }),
+    };
+
     appModule = await Test.createTestingModule({
       imports: [AppModule],
+      providers: [
+        {
+          provide: ConfigService,
+          useValue: configServiceMock,
+        },
+      ],
     }).compile();
   });
 
