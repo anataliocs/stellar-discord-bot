@@ -13,5 +13,5 @@
       ]
     }
   },
-  "postCreateCommand": "pnpm install"
+  "postCreateCommand": "pnpm install && pnpm build && pnpm check"
 }
