@@ -3,7 +3,7 @@ import { BotGateway } from './bot.gateway';
 import { Client, GatewayIntentBits } from 'discord.js';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import { IsNotBotGuard } from './guard/is-not-bot.guard';
+import { IsNotArchivedGuard } from './guard/is-not-archived.guard';
 import { IsDevHelpChannel } from './guard/is-dev-help-channel-type.guard';
 import { IsPublicThreadChannelType } from './guard/is-thread-channel-type.guard';
 import { of } from 'rxjs';
@@ -105,7 +105,7 @@ describe('BotGateway', () => {
           useValue: configServiceMock,
         },
         {
-          provide: IsNotBotGuard,
+          provide: IsNotArchivedGuard,
           useValue: { canActivate: () => true }, // Mock guard
         },
         {

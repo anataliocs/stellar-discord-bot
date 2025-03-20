@@ -4,7 +4,7 @@ export const SERVER_ID = '897514728459468821';
 
 export const STELLA_CHANNEL = '1265827786111586344';
 
-interface ForumTag {
+export interface ForumTag {
   id: string;
   name: string;
   moderated: boolean;
@@ -13,7 +13,8 @@ interface ForumTag {
 }
 
 export function getTagById(id: string): ForumTag {
-  return available_tags[available_tags.findIndex((value) => value.id === id)];
+  const tag = available_tags.findIndex((value) => value.id === id);
+  return tag > 0 ? available_tags[tag] : available_tags[0];
 }
 
 export const available_tags: ForumTag[] = [

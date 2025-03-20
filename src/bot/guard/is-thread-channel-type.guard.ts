@@ -3,8 +3,8 @@ import { ChannelType } from 'discord.js';
 
 export class IsPublicThreadChannelType implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
-    const message = context.getArgByIndex(0);
+    const channel = context.getArgByIndex(0);
 
-    return message.channel.type === ChannelType.PublicThread;
+    return channel.type === ChannelType.PublicThread;
   }
 }

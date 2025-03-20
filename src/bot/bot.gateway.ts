@@ -1,11 +1,12 @@
 import { Injectable, Logger, UseGuards } from '@nestjs/common';
 import { InjectDiscordClient, On, Once } from '@discord-nestjs/core';
-import { Client, Message, messageLink } from 'discord.js';
+import { Client, Message, messageLink, ThreadChannel } from 'discord.js';
 import { HttpService } from '@nestjs/axios';
-import { IsNotBotGuard } from './guard/is-not-bot.guard';
+import { IsNotArchivedGuard } from './guard/is-not-archived.guard';
 import { IsDevHelpChannel } from './guard/is-dev-help-channel-type.guard';
 import { IsPublicThreadChannelType } from './guard/is-thread-channel-type.guard';
 import { ConfigService } from '@nestjs/config';
+import { ForumTag, getTagById } from '../constants';
 
 @Injectable()
 export class BotGateway {
@@ -28,15 +29,25 @@ export class BotGateway {
     this.debugInfo();
   }
 
-  @On('messageCreate')
-  @UseGuards(IsNotBotGuard, IsDevHelpChannel, IsPublicThreadChannelType)
-  async onMessage(message: Message): Promise<void> {
-    if (this.debug) {
-      this.logger.log(`msg received: ${JSON.stringify(message)}`);
-    }
+  @UseGuards(IsNotArchivedGuard, IsDevHelpChannel, IsPublicThreadChannelType)
+  @On('threadCreate')
+  async onMessage(channel: ThreadChannel): Promise<void> {
+    const messages = await channel.awaitMessages({ max: 1 });
 
-    const title = message.channel.isThread() ? message.channel.name : '';
-    // TODO use getTagById() function to populate tags from guild forum channel
+    if (messages.size === 0) return;
+
+    const forumMsg: Message = messages.at(0);
+
+    const title = channel.name;
+
+    const tags: ForumTag[] = channel.appliedTags
+      .filter((tag) => tag.length > 0)
+      .map((value) => getTagById(value));
+
+    let tagString: string = '';
+    tags.forEach((value) => {
+      tagString += '`' + value.name + '`';
+    });
 
     this.httpService
       .post(
@@ -54,7 +65,7 @@ export class BotGateway {
               type: 'context',
               elements: [
                 {
-                  text: `*${message.createdAt}*  |  ${message.author.username}`,
+                  text: `*${forumMsg.createdAt}*  |  ${forumMsg.author.username}`,
                   type: 'mrkdwn',
                 },
               ],
@@ -66,7 +77,7 @@ export class BotGateway {
               type: 'section',
               text: {
                 type: 'mrkdwn',
-                text: `${message.content}`,
+                text: `${forumMsg.content}`,
               },
             },
             {
@@ -77,7 +88,7 @@ export class BotGateway {
               elements: [
                 {
                   type: 'mrkdwn',
-                  text: ':tag: `auth` `deployment` `sdk`',
+                  text: `:tag: ${tagString}`,
                 },
               ],
             },
@@ -86,7 +97,7 @@ export class BotGateway {
               elements: [
                 {
                   type: 'mrkdwn',
-                  text: `:link: ${messageLink(message.channel.id, message.id)}`,
+                  text: `:link: ${messageLink(channel.id, forumMsg.id)}`,
                 },
               ],
             },
