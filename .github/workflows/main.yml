@@ -26,7 +26,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: actions/pnpm-setup@v4
         with:
           version: 9
           run_install: false
