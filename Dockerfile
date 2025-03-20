@@ -1,33 +1,25 @@
-# Use an official Node.js runtime as the base image
-FROM node:20-slim
+# Base stage
+FROM node:20-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
-# Create app directory
+# Dependencies stage
+FROM base AS dependencies
 WORKDIR /usr/src/app
-
-# Copy application dependency manifests to the container image.
-# A wildcard is used to ensure copying both package.json AND package-lock.json (when available).
-# Copying this first prevents re-running npm install on every code change.
 COPY --chown=node:node package*.json ./
+RUN pnpm install --frozen-lockfile
 
-# Install dependencies
-RUN pnpm install
-
-# Bundle app source
+# Build stage
+FROM dependencies AS build
 COPY --chown=node:node . .
-
-# Build the Next.js app
 RUN pnpm run build
 
-# Set NODE_ENV environment variable
+# Production stage
+FROM base AS production
+WORKDIR /usr/src/app
+COPY --from=build /usr/src/app ./
 ENV NODE_ENV production
-
 USER node
-
-# Expose the port that Next.js runs on
 EXPOSE 3000
-
-# Run the Next.js app
 CMD [ "node", "dist/main.js" ]
