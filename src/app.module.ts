@@ -3,16 +3,20 @@ import { DiscordModule } from '@discord-nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BotModule } from './bot/bot.module';
 import { GatewayIntentBits, Partials } from 'discord.js';
-import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { AppController } from './app.controller';
 import { HttpModule } from '@nestjs/axios';
+import { SERVER_ID } from './constants';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     HttpModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      envFilePath: ['.env.local', '.env.dev', '.env.ci'],
+      isGlobal: true,
+    }),
     DiscordModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -20,7 +24,7 @@ import { HttpModule } from '@nestjs/axios';
         token: configService.get('DISCORD_TOKEN'),
         registerCommandOptions: [
           {
-            forGuild: configService.get('SERVER_ID'),
+            forGuild: SERVER_ID,
             removeCommandsBefore: true,
           },
         ],
@@ -29,6 +33,8 @@ import { HttpModule } from '@nestjs/axios';
             GatewayIntentBits.Guilds,
             GatewayIntentBits.GuildMessages,
             GatewayIntentBits.MessageContent,
+            GatewayIntentBits.GuildMessagePolls,
+            GatewayIntentBits.GuildMembers,
           ],
           partials: [
             Partials.Channel,
@@ -39,6 +45,7 @@ import { HttpModule } from '@nestjs/axios';
           ],
         },
         autoLogin: true,
+        failOnLogin: true,
       }),
     }),
     BotModule,

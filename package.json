@@ -6,18 +6,20 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "build": "nest build",
+    "build": "nest build --builder swc --type-check",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
+    "test": "jest --colors --injectGlobals",
+    "test:ci": "nest build --builder swc --type-check && pnpm lint && jest --ci",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "check": "pnpm build && pnpm lint && pnpm test"
   },
   "dependencies": {
     "@discord-nestjs/common": "^5.3.1",
@@ -29,6 +31,8 @@
     "@nestjs/jwt": "^11.0.0",
     "@nestjs/passport": "^11.0.3",
     "@nestjs/platform-express": "^10.0.0",
+    "@swc/cli": "^0.6.0",
+    "@swc/core": "^1.11.11",
     "axios": "^1.8.3",
     "class-validator": "^0.14.1",
     "discord.js": "^14.17.3",
